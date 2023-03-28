@@ -5,16 +5,19 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public CharacterScriptableObject characterData;
-    float currentHealth, currentRecovery, currentMoveSpeed, currentMight, currentProjectileSpeed;
+    //[HideInInspector]
+    public float currentHealth, currentRecovery, currentMoveSpeed, currentMight, currentProjectileSpeed, currentMagnet;
 
 
     [Header("Expereince/Level")]
-    public int experience = 0, level = 1, experienceCap;
+    public int experience = 0;
+    public int level = 1, experienceCap;
     [System.Serializable]
     public class levelRange
     {
         public int startLevel, endLevel, experienceCapIncrease;
     }
+    public List<levelRange> levelRanges;
 
     //I-frames
     [Header("I-Frames")]
@@ -22,7 +25,7 @@ public class PlayerStats : MonoBehaviour
     float invincibilityTimer;
     bool isInvincible;
 
-    public List<levelRange> levelRanges;
+   
 
     private void Awake()
     {
@@ -31,6 +34,7 @@ public class PlayerStats : MonoBehaviour
         currentMoveSpeed = characterData.MoveSpeed;
         currentMight = characterData.Might;
         currentProjectileSpeed = characterData.ProjectileSpeed;
+        currentMagnet = characterData.Magnet;
     }
 
     private void Start()
@@ -40,7 +44,7 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
-        if(invincibilityTimer > 0)
+        if (invincibilityTimer > 0)
         {
             invincibilityTimer -= Time.deltaTime;
         }
@@ -48,6 +52,7 @@ public class PlayerStats : MonoBehaviour
         {
             isInvincible = false;
         }
+        Recover();
     }
 
     public void IncreaseExperience(int amount)
@@ -89,5 +94,17 @@ public class PlayerStats : MonoBehaviour
     public void Kill()
     {
         Debug.Log("PLAYER DIED");
+    }
+
+    void Recover()
+    {
+        if(currentHealth >= characterData.MaxHealth)
+        {
+            currentHealth = characterData.MaxHealth;
+        }
+        else
+        {
+            currentHealth += currentRecovery * Time.deltaTime;
+        }
     }
 }

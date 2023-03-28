@@ -6,13 +6,15 @@ public class PlayerMovement : MonoBehaviour
 {
     //public float moveSpeed, rotationSpeed;
     [SerializeField] float rotationSpeed;
-    Rigidbody rb;
     public Vector3 moveDir, lookPos, lookDir;
-    public CharacterScriptableObject characterData;
+    //Refs
+    Rigidbody rb;
+    PlayerStats player;
 
     // Start is called before the first frame update
     void Start()
     {
+        player = GetComponent<PlayerStats>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -38,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = new Vector3(moveDir.x * characterData.MoveSpeed, 0, moveDir.z * characterData.MoveSpeed);
+        rb.velocity = new Vector3(moveDir.x * player.currentMoveSpeed, 0, moveDir.z * player.currentMoveSpeed);
     }
 
     void Look()
