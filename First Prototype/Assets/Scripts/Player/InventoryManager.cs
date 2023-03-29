@@ -12,16 +12,22 @@ public class InventoryManager : MonoBehaviour
     public void AddWeapon(int slotIndex, WeaponController weapon)
     {
         weaponSlots[slotIndex] = weapon;
+        weaponLevels[slotIndex] = weapon.weaponData.Level;
     }
 
     public void AddPassiveItem(int slotIndex, PassiveItem passiveItem)
     {
         passiveItemSlots[slotIndex] = passiveItem;
+        passiveItemLevels[slotIndex] = passiveItem.passiveItemData.Level;
     }
 
     public void LevelUpWeapon(int slotIndex)
     {
-
+        if(weaponSlots.Count > slotIndex)
+        {
+            WeaponController weapon = weaponSlots[slotIndex];
+            GameObject upgradedWeapon = Instantiate(weapon.weaponData.NextLevelPrefab, transform.position, Quaternion.identity, transform);
+        }
     }
 
     public void LevelUpPassiveItem(int slotIndex)
