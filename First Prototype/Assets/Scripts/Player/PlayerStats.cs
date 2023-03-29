@@ -25,16 +25,21 @@ public class PlayerStats : MonoBehaviour
     float invincibilityTimer;
     bool isInvincible;
 
+    public List<GameObject> spawnedWeapons;
+
    
 
     private void Awake()
     {
+        characterData = CharacterSelector.GetData();
+        CharacterSelector.instance.DestroySingleton();
         currentHealth = characterData.MaxHealth;
         currentRecovery = characterData.Recovery;
         currentMoveSpeed = characterData.MoveSpeed;
         currentMight = characterData.Might;
         currentProjectileSpeed = characterData.ProjectileSpeed;
         currentMagnet = characterData.Magnet;
+        SpawnWeapon(characterData.StartingWeapon);
     }
 
     private void Start()
@@ -106,5 +111,11 @@ public class PlayerStats : MonoBehaviour
         {
             currentHealth += currentRecovery * Time.deltaTime;
         }
+    }
+
+    public void SpawnWeapon(GameObject weapon)
+    {
+        GameObject spawnedWeapon = Instantiate(weapon, transform.position, Quaternion.identity, transform);
+        spawnedWeapons.Add(spawnedWeapon);
     }
 }
