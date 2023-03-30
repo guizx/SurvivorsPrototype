@@ -27,6 +27,7 @@ public class InventoryManager : MonoBehaviour
         {
             WeaponController weapon = weaponSlots[slotIndex];
             GameObject upgradedWeapon = Instantiate(weapon.weaponData.NextLevelPrefab, transform.position, Quaternion.identity, transform);
+
         }
     }
 
